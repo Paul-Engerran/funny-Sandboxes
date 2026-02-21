@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Funny Sandboxes</title>
+  <meta name="description" content="A collection of interactive toy labs for intuition-building (educational only)." />
+  <style>
+    :root { color-scheme: light dark; }
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+      line-height: 1.5;
+    }
+    .wrap { max-width: 980px; margin: 0 auto; padding: 48px 18px; }
+    .hero {
+      padding: 28px 22px;
+      border: 1px solid rgba(127,127,127,.35);
+      border-radius: 16px;
+      background: rgba(127,127,127,.08);
+    }
+    h1 { margin: 0 0 8px; font-size: 34px; letter-spacing: -0.02em; }
+    p { margin: 10px 0; opacity: .92; }
+    .pill {
+      display: inline-block;
+      padding: 6px 10px;
+      border: 1px solid rgba(127,127,127,.35);
+      border-radius: 999px;
+      font-size: 13px;
+      opacity: .9;
+    }
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 14px; margin-top: 18px; }
+    .card {
+      border: 1px solid rgba(127,127,127,.35);
+      border-radius: 16px;
+      padding: 16px;
+      background: rgba(127,127,127,.05);
+    }
+    .card h2 { margin: 0 0 6px; font-size: 18px; }
+    .card p { margin: 0 0 12px; font-size: 14px; opacity: .9; }
+    .actions { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
+    a.button {
+      display: inline-block;
+      padding: 10px 12px;
+      border-radius: 12px;
+      border: 1px solid rgba(127,127,127,.45);
+      text-decoration: none;
+      font-weight: 600;
+    }
+    a.button.primary {
+      border-color: rgba(127,127,127,.65);
+      background: rgba(127,127,127,.14);
+    }
+    footer { margin-top: 26px; font-size: 13px; opacity: .75; }
+    code { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; font-size: 0.95em; }
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <section class="hero">
+      <span class="pill">Educational / toy labs</span>
+      <h1>Funny Sandboxes</h1>
+      <p>
+        A collection of small interactive simulators built to communicate intuition (fat tails, leverage effects,
+        liquidations, skew/smile distortions). Not an identification strategy. Not for trading.
+      </p>
+      <p class="pill">Tip: bookmark this page as a hub for all labs.</p>
+    </section>
+
+    <section class="grid" aria-label="Labs">
+      <article class="card">
+        <h2>Leverage &amp; Fat Tails</h2>
+        <p>
+          Returns simulation + VaR/ES + liquidation probability (<code>S_liq</code>) and option distortions vs
+          Black–Scholes baseline.
+        </p>
+        <div class="actions">
+          <!-- IMPORTANT: adjust the folder name if yours is different -->
+          <a class="button primary" href="./leverage-fat-tails/">Open the lab</a>
+          <a class="button" href="./leverage-fat-tails/README.md">Read details</a>
+        </div>
+      </article>
+
+      <!-- Duplicate this card for your next simulators -->
+      <!--
+      <article class="card">
+        <h2>Another lab</h2>
+        <p>Short one-line description.</p>
+        <div class="actions">
+          <a class="button primary" href="./another-lab/">Open</a>
+          <a class="button" href="./another-lab/README.md">Details</a>
+        </div>
+      </article>
+      -->
+    </section>
+
+    <footer>
+      Source code: <a href="https://github.com/paul-engerran/funny-Sandboxes">GitHub repository</a>
+    </footer>
+  </main>
+</body>
+</html>
