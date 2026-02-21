@@ -384,6 +384,69 @@
       outline-offset: 3px;
       border-radius: 12px;
     }
+      /* ---------- Modal (dialog) ---------- */
+    button.btn{
+      appearance: none;
+      -webkit-appearance: none;
+      cursor: pointer;
+      font: inherit;
+      color: var(--text);
+    }
+    
+    dialog.modal{
+      width: min(720px, 92vw);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 0;
+      background: var(--panel-strong);
+      color: var(--text);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+    
+    dialog.modal::backdrop{
+      background: rgba(0,0,0,.35);
+      backdrop-filter: blur(6px);
+    }
+    
+    .modal-inner{
+      padding: 16px 16px 14px;
+    }
+    
+    .modal-head{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap: 10px;
+      padding: 14px 16px;
+      border-bottom: 1px solid var(--border);
+      background: rgba(255,255,255,.35);
+    }
+    @media (prefers-color-scheme: dark){
+      .modal-head{ background: rgba(12,16,28,.35); }
+    }
+    
+    .modal-title{
+      font-weight: 800;
+      letter-spacing: -0.02em;
+    }
+    
+    .modal-body p, .modal-body li{
+      color: var(--muted);
+      font-size: 14px;
+    }
+    .modal-body ul{
+      margin: 10px 0 0;
+      padding-left: 18px;
+    }
+    
+    .modal-actions{
+      display:flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 14px;
+    }
+    
   </style>
 </head>
 
@@ -463,7 +526,7 @@
             <div class="meta">
               <div class="cta">
                 <a class="btn primary" href="./leverage-fat-tails/the_first_index.html">Open</a>
-                <a class="btn" href="./leverage-fat-tails/README.md">Details</a>
+                <button class="btn" type="button" data-open-dialog="lab-leverage">Details</button>
               </div>
               <small>Stylized lab • educational</small>
             </div>
@@ -498,9 +561,69 @@
     </div>
   </div>
 
+  <dialog id="lab-leverage" class="modal" aria-label="Leverage & Fat Tails details">
+  <div class="modal-head">
+    <div class="modal-title">Leverage &amp; Fat Tails — Details</div>
+    <button class="btn" type="button" data-close-dialog>Close</button>
+  </div>
+
+  <div class="modal-inner modal-body">
+    <p>
+      Interactive toy lab to visualize how fat tails (Gaussian vs Student-t) and a stylized leverage asymmetry
+      can amplify left-tail risk (VaR/ES), affect liquidation probability (<code>S_liq</code>), and create option
+      distortions relative to a Black–Scholes baseline.
+    </p>
+
+    <ul>
+      <li><strong>Educational / communication tool</strong> — not an identification strategy.</li>
+      <li><strong>Not risk-neutral</strong> except where explicitly stated (Gaussian/BS baseline).</li>
+      <li><strong>Not for trading</strong> or production risk management.</li>
+    </ul>
+
+    <div class="modal-actions">
+      <a class="btn primary" href="./leverage-fat-tails/the_first_index.html">Open lab</a>
+      <a class="btn" target="_blank" rel="noopener"
+         href="https://github.com/paul-engerran/funny-Sandboxes/blob/main/leverage-fat-tails/README.md">
+        GitHub README
+      </a>
+    </div>
+  </div>
+</dialog>
+  
   <script>
     // Tiny quality-of-life: current year in footer (no tracking, no external deps)
     document.getElementById('y').textContent = new Date().getFullYear();
   </script>
+
+<script>
+  (function () {
+    const supportsDialog = typeof HTMLDialogElement === "function";
+    const fallbackUrl = "https://github.com/paul-engerran/funny-Sandboxes/blob/main/leverage-fat-tails/README.md";
+
+    document.querySelectorAll("[data-open-dialog]").forEach(btn => {
+      btn.addEventListener("click", () => {
+        if (!supportsDialog) {
+          window.open(fallbackUrl, "_blank", "noopener");
+          return;
+        }
+        const id = btn.getAttribute("data-open-dialog");
+        const dlg = document.getElementById(id);
+        if (dlg) dlg.showModal();
+      });
+    });
+
+    document.querySelectorAll("dialog.modal").forEach(dlg => {
+      // Close buttons
+      dlg.querySelectorAll("[data-close-dialog]").forEach(b =>
+        b.addEventListener("click", () => dlg.close())
+      );
+      // Click outside content closes (click on backdrop)
+      dlg.addEventListener("click", (e) => {
+        if (e.target === dlg) dlg.close();
+      });
+    });
+  })();
+</script>
+  
 </body>
 </html>
