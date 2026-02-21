@@ -4,99 +4,504 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Funny Sandboxes</title>
-  <meta name="description" content="A collection of interactive toy labs for intuition-building (educational only)." />
+  <meta name="description" content="Interactive toy labs to make research intuition tangible (educational only)." />
+
+  <!-- Optional: Inter font (if you already mention it in THIRD_PARTY_NOTICES.md) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
   <style>
-    :root { color-scheme: light dark; }
-    body {
-      margin: 0;
-      font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
-      line-height: 1.5;
+    :root{
+      /* --- Color system (light, bright, chic) --- */
+      --bg: #fbfcff;
+      --panel: rgba(255,255,255,.78);
+      --panel-strong: rgba(255,255,255,.92);
+      --text: #0b1220;
+      --muted: rgba(11,18,32,.68);
+      --muted2: rgba(11,18,32,.52);
+      --border: rgba(14, 20, 38, .12);
+
+      --accent: #4f46e5;     /* indigo */
+      --accent2: #06b6d4;    /* cyan */
+      --warm: #fb7185;       /* optional tiny warm pop */
+
+      --radius: 18px;
+      --radius2: 14px;
+      --shadow: 0 18px 50px rgba(10, 18, 38, .10);
+      --shadow2: 0 10px 26px rgba(10, 18, 38, .08);
+      --focus: rgba(79,70,229,.30);
+
+      --max: 1080px;
     }
-    .wrap { max-width: 980px; margin: 0 auto; padding: 48px 18px; }
-    .hero {
-      padding: 28px 22px;
-      border: 1px solid rgba(127,127,127,.35);
-      border-radius: 16px;
-      background: rgba(127,127,127,.08);
+
+    /* Optional dark mode (kept subtle & classy) */
+    @media (prefers-color-scheme: dark){
+      :root{
+        --bg: #070a12;
+        --panel: rgba(12, 16, 28, .60);
+        --panel-strong: rgba(12, 16, 28, .85);
+        --text: #eef1ff;
+        --muted: rgba(238,241,255,.72);
+        --muted2: rgba(238,241,255,.56);
+        --border: rgba(238,241,255,.12);
+        --shadow: 0 18px 50px rgba(0,0,0,.40);
+        --shadow2: 0 10px 26px rgba(0,0,0,.32);
+        --focus: rgba(6,182,212,.26);
+      }
     }
-    h1 { margin: 0 0 8px; font-size: 34px; letter-spacing: -0.02em; }
-    p { margin: 10px 0; opacity: .92; }
-    .pill {
-      display: inline-block;
-      padding: 6px 10px;
-      border: 1px solid rgba(127,127,127,.35);
-      border-radius: 999px;
-      font-size: 13px;
-      opacity: .9;
+
+    *{ box-sizing:border-box; }
+    html,body{ height:100%; }
+    body{
+      margin:0;
+      font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+      color: var(--text);
+      background: var(--bg);
+      line-height: 1.45;
     }
-    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 14px; margin-top: 18px; }
-    .card {
-      border: 1px solid rgba(127,127,127,.35);
-      border-radius: 16px;
-      padding: 16px;
-      background: rgba(127,127,127,.05);
+
+    /* Subtle luminous background with a barely-visible grid texture */
+    .bg{
+      min-height:100%;
+      background:
+        radial-gradient(900px 600px at 12% 6%, rgba(79,70,229,.18), transparent 55%),
+        radial-gradient(800px 520px at 88% 12%, rgba(6,182,212,.14), transparent 60%),
+        radial-gradient(900px 620px at 40% 92%, rgba(251,113,133,.10), transparent 65%),
+        linear-gradient(to bottom, rgba(255,255,255,.10), transparent 30%),
+        /* grid texture */
+        linear-gradient(to right, rgba(14,20,38,.06) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(14,20,38,.05) 1px, transparent 1px);
+      background-size:
+        auto, auto, auto, auto,
+        48px 48px,
+        48px 48px;
+      background-position:
+        0 0, 0 0, 0 0, 0 0,
+        0 0,
+        0 0;
     }
-    .card h2 { margin: 0 0 6px; font-size: 18px; }
-    .card p { margin: 0 0 12px; font-size: 14px; opacity: .9; }
-    .actions { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
-    a.button {
-      display: inline-block;
-      padding: 10px 12px;
-      border-radius: 12px;
-      border: 1px solid rgba(127,127,127,.45);
-      text-decoration: none;
+
+    .wrap{
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 46px 18px 56px;
+    }
+
+    /* Top nav */
+    .top{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      margin-bottom: 18px;
+    }
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      text-decoration:none;
+      color:inherit;
+    }
+    .logo{
+      width:34px;height:34px;border-radius: 12px;
+      background:
+        radial-gradient(circle at 30% 30%, rgba(255,255,255,.75), transparent 40%),
+        linear-gradient(135deg, rgba(79,70,229,.95), rgba(6,182,212,.85));
+      box-shadow: var(--shadow2);
+      border: 1px solid rgba(255,255,255,.25);
+    }
+    .brand span{
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+
+    .top a.link{
+      color: var(--muted);
+      text-decoration:none;
       font-weight: 600;
+      font-size: 14px;
     }
-    a.button.primary {
-      border-color: rgba(127,127,127,.65);
-      background: rgba(127,127,127,.14);
+    .top a.link:hover{ color: var(--text); }
+
+    /* Hero */
+    .hero{
+      border: 1px solid var(--border);
+      background: var(--panel);
+      backdrop-filter: blur(10px);
+      border-radius: var(--radius);
+      padding: 26px 22px;
+      box-shadow: var(--shadow);
+      overflow:hidden;
+      position:relative;
     }
-    footer { margin-top: 26px; font-size: 13px; opacity: .75; }
-    code { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; font-size: 0.95em; }
+    .hero::before{
+      content:"";
+      position:absolute; inset:-2px;
+      background: linear-gradient(90deg, rgba(79,70,229,.35), rgba(6,182,212,.28), rgba(251,113,133,.20));
+      filter: blur(22px);
+      opacity:.65;
+      pointer-events:none;
+      transform: translateY(-18px);
+    }
+    .hero-inner{
+      position:relative;
+      display:grid;
+      grid-template-columns: 1.25fr .75fr;
+      gap: 16px;
+      align-items:end;
+    }
+    @media (max-width: 860px){
+      .hero-inner{ grid-template-columns: 1fr; }
+    }
+
+    .pill{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding: 7px 10px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,.55);
+      color: var(--muted);
+      font-weight: 600;
+      font-size: 13px;
+    }
+    @media (prefers-color-scheme: dark){
+      .pill{ background: rgba(12,16,28,.55); }
+    }
+    .spark{
+      width: 10px; height: 10px; border-radius: 999px;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      box-shadow: 0 0 0 4px rgba(79,70,229,.12);
+    }
+
+    h1{
+      margin: 12px 0 10px;
+      font-size: 44px;
+      line-height: 1.05;
+      letter-spacing: -0.04em;
+    }
+    @media (max-width: 520px){
+      h1{ font-size: 36px; }
+    }
+    .lead{
+      margin: 0 0 16px;
+      color: var(--muted);
+      font-size: 16px;
+      max-width: 62ch;
+    }
+
+    .cta{
+      display:flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      align-items:center;
+      margin-top: 10px;
+    }
+
+    .btn{
+      display:inline-flex;
+      align-items:center;
+      gap:10px;
+      padding: 11px 14px;
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      text-decoration:none;
+      font-weight: 700;
+      font-size: 14px;
+      color: var(--text);
+      background: var(--panel-strong);
+      transition: transform .14s ease, box-shadow .14s ease, background .14s ease;
+    }
+    .btn:hover{ transform: translateY(-1px); box-shadow: var(--shadow2); }
+    .btn:active{ transform: translateY(0px); box-shadow: none; }
+
+    .btn.primary{
+      border-color: rgba(79,70,229,.26);
+      background: linear-gradient(135deg, rgba(79,70,229,.18), rgba(6,182,212,.14));
+    }
+
+    .btn .arrow{
+      display:inline-block;
+      width: 16px; height: 16px;
+      opacity:.9;
+    }
+
+    .side{
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,.55);
+      border-radius: var(--radius2);
+      padding: 14px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+    @media (prefers-color-scheme: dark){
+      .side{ background: rgba(12,16,28,.52); }
+    }
+    .side strong{ color: var(--text); }
+    .side a{ color: inherit; }
+    .side a:hover{ color: var(--text); }
+
+    /* Sections */
+    .section-title{
+      margin: 22px 0 10px;
+      font-size: 14px;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: var(--muted2);
+      font-weight: 800;
+    }
+
+    /* Cards grid */
+    .grid{
+      display:grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 14px;
+      margin-top: 12px;
+    }
+    .card{
+      grid-column: span 6;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: var(--panel);
+      backdrop-filter: blur(10px);
+      box-shadow: var(--shadow2);
+      overflow:hidden;
+      transition: transform .14s ease, box-shadow .14s ease;
+    }
+    .card:hover{ transform: translateY(-2px); box-shadow: var(--shadow); }
+    @media (max-width: 980px){
+      .card{ grid-column: span 12; }
+    }
+
+    .thumb{
+      height: 190px;
+      border-bottom: 1px solid var(--border);
+      position:relative;
+      background:
+        radial-gradient(220px 140px at 30% 35%, rgba(79,70,229,.35), transparent 60%),
+        radial-gradient(260px 150px at 75% 45%, rgba(6,182,212,.28), transparent 62%),
+        linear-gradient(180deg, rgba(255,255,255,.10), rgba(255,255,255,0));
+    }
+    .thumb img{
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display:block;
+      opacity: .95;
+    }
+    .card-body{
+      padding: 16px 16px 14px;
+    }
+    .card h2{
+      margin: 0 0 6px;
+      font-size: 18px;
+      letter-spacing: -0.02em;
+    }
+    .card p{
+      margin: 0 0 12px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .tags{
+      display:flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+    .tag{
+      display:inline-flex;
+      align-items:center;
+      gap: 6px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,.55);
+      font-size: 12px;
+      color: var(--muted);
+      font-weight: 700;
+    }
+    @media (prefers-color-scheme: dark){
+      .tag{ background: rgba(12,16,28,.55); }
+    }
+
+    .meta{
+      display:flex;
+      justify-content: space-between;
+      align-items:center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .meta small{
+      color: var(--muted2);
+      font-weight: 700;
+    }
+
+    /* Scope box */
+    details.scope{
+      margin-top: 12px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: rgba(255,255,255,.55);
+      padding: 12px 14px;
+    }
+    @media (prefers-color-scheme: dark){
+      details.scope{ background: rgba(12,16,28,.55); }
+    }
+    details.scope summary{
+      cursor: pointer;
+      font-weight: 800;
+      color: var(--text);
+      list-style: none;
+    }
+    details.scope summary::-webkit-details-marker{ display:none; }
+    details.scope p, details.scope ul{
+      color: var(--muted);
+      margin: 10px 0 0;
+      font-size: 14px;
+    }
+    details.scope ul{ padding-left: 18px; }
+
+    /* Footer */
+    footer{
+      margin-top: 26px;
+      color: var(--muted2);
+      font-size: 13px;
+      display:flex;
+      align-items:center;
+      justify-content: space-between;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    footer a{ color: inherit; text-decoration: none; font-weight: 700; }
+    footer a:hover{ color: var(--text); }
+
+    /* Focus accessibility */
+    a:focus-visible, summary:focus-visible{
+      outline: 3px solid var(--focus);
+      outline-offset: 3px;
+      border-radius: 12px;
+    }
   </style>
 </head>
+
 <body>
-  <main class="wrap">
-    <section class="hero">
-      <span class="pill">Educational / toy labs</span>
-      <h1>Funny Sandboxes</h1>
-      <p>
-        A collection of small interactive simulators built to communicate intuition (fat tails, leverage effects,
-        liquidations, skew/smile distortions). Not an identification strategy. Not for trading.
-      </p>
-      <p class="pill">Tip: bookmark this page as a hub for all labs.</p>
-    </section>
+  <div class="bg">
+    <div class="wrap">
+      <header class="top">
+        <a class="brand" href="./">
+          <span class="logo" aria-hidden="true"></span>
+          <span>Funny Sandboxes</span>
+        </a>
+        <!-- Update repo link if needed -->
+        <a class="link" href="https://github.com/paul-engerran/funny-Sandboxes">Repository</a>
+      </header>
 
-    <section class="grid" aria-label="Labs">
-      <article class="card">
-        <h2>Leverage &amp; Fat Tails</h2>
+      <section class="hero" aria-label="Intro">
+        <div class="hero-inner">
+          <div>
+            <span class="pill"><span class="spark" aria-hidden="true"></span> Educational / toy labs</span>
+            <h1>Make intuition clickable.</h1>
+            <p class="lead">
+              Small interactive sandboxes built to communicate tail risk &amp; leverage intuition
+              (fat tails, liquidations, skew/smile distortions). Clean demos, zero over-claim.
+            </p>
+
+            <div class="cta">
+              <!-- Update this folder name if yours is different -->
+              <a class="btn primary" href="./leverage-fat-tails/">
+                Open latest lab
+                <svg class="arrow" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                  <path d="M7 17L17 7" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                  <path d="M10 7h7v7" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                </svg>
+              </a>
+              <a class="btn" href="#labs">Browse labs</a>
+            </div>
+          </div>
+
+          <aside class="side">
+            <strong>Scope</strong><br/>
+            Toy models for explanation &amp; teaching.
+            <br/>Not an identification strategy.
+            <br/>Not for trading.
+            <br/><br/>
+            <span style="opacity:.9">Tip:</span> save this page as your hub.
+          </aside>
+        </div>
+      </section>
+
+      <h3 class="section-title" id="labs">Labs</h3>
+
+      <section class="grid" aria-label="Labs list">
+
+        <!-- LAB CARD 1 -->
+        <article class="card">
+          <div class="thumb" aria-label="Lab thumbnail">
+            <!-- Optional: add a screenshot image
+                 Put it for example here: leverage-fat-tails/assets/preview.png
+                 Then uncomment the img tag below and update the path. -->
+            <!-- <img src="./leverage-fat-tails/assets/preview.png" alt="Preview of the Leverage & Fat Tails lab" /> -->
+          </div>
+
+          <div class="card-body">
+            <h2>Leverage &amp; Fat Tails</h2>
+            <p>
+              Returns simulation + VaR/ES + liquidation probability (<code>S_liq</code>) and option distortions
+              relative to a Black–Scholes baseline.
+            </p>
+
+            <div class="tags" aria-label="Tags">
+              <span class="tag">fat tails</span>
+              <span class="tag">leverage</span>
+              <span class="tag">VaR / ES</span>
+              <span class="tag">liquidations</span>
+              <span class="tag">options</span>
+            </div>
+
+            <div class="meta">
+              <div class="cta">
+                <a class="btn primary" href="./leverage-fat-tails/">Open</a>
+                <a class="btn" href="./leverage-fat-tails/README.md">Details</a>
+              </div>
+              <small>Stylized lab • educational</small>
+            </div>
+          </div>
+        </article>
+
+        <!-- Duplicate cards here when you add more labs -->
+
+      </section>
+
+      <details class="scope">
+        <summary>Scope &amp; limitations (click)</summary>
         <p>
-          Returns simulation + VaR/ES + liquidation probability (<code>S_liq</code>) and option distortions vs
-          Black–Scholes baseline.
+          These sandboxes are built as intuition builders and presentation companions.
+          They are not used as empirical identification strategies.
         </p>
-        <div class="actions">
-          <!-- IMPORTANT: adjust the folder name if yours is different -->
-          <a class="button primary" href="./leverage-fat-tails/">Open the lab</a>
-          <a class="button" href="./leverage-fat-tails/README.md">Read details</a>
-        </div>
-      </article>
+        <ul>
+          <li>Risk-neutral assumptions only apply where explicitly stated (e.g., Gaussian/Black–Scholes baseline).</li>
+          <li>Some models are deliberately stylized / ad hoc to visualize mechanisms (not market-calibrated).</li>
+          <li>Not for trading or production risk management.</li>
+        </ul>
+      </details>
 
-      <!-- Duplicate this card for your next simulators -->
-      <!--
-      <article class="card">
-        <h2>Another lab</h2>
-        <p>Short one-line description.</p>
-        <div class="actions">
-          <a class="button primary" href="./another-lab/">Open</a>
-          <a class="button" href="./another-lab/README.md">Details</a>
-        </div>
-      </article>
-      -->
-    </section>
+      <footer>
+        <span>© <span id="y"></span> Paul Engerran</span>
+        <span>
+          <a href="./THIRD_PARTY_NOTICES.md">Third-party notices</a>
+          ·
+          <a href="https://github.com/paul-engerran/funny-Sandboxes">Source</a>
+        </span>
+      </footer>
+    </div>
+  </div>
 
-    <footer>
-      Source code: <a href="https://github.com/paul-engerran/funny-Sandboxes">GitHub repository</a>
-    </footer>
-  </main>
+  <script>
+    // Tiny quality-of-life: current year in footer (no tracking, no external deps)
+    document.getElementById('y').textContent = new Date().getFullYear();
+  </script>
 </body>
 </html>
