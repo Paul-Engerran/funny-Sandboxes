@@ -9,8 +9,9 @@ A collection of small “toy” simulators and interactive labs built to communi
 - Not risk-neutral pricing unless explicitly stated (e.g., Gaussian/Black–Scholes baseline).
 - Not for trading or real risk management.
 
-## Labs
+## Labs - https://paul-engerran.github.io/funny-Sandboxes/
 - `leverage-fat-tails/` — Leverage & left-tail amplification + VaR/ES + liquidation probability (interactive HTML)
+https://paul-engerran.github.io/funny-Sandboxes/leverage-fat-tails/the_first_index.html
 
 ## Run locally
 Each lab is a static page. Open `index.html`.
