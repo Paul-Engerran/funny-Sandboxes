@@ -2,7 +2,7 @@
 
 Liquidation cascades produce fat-tailed returns from purely Gaussian shocks. This simulator lets you see it happen — adjust leverage, correlation, impact parameters, and watch excess kurtosis and negative skewness emerge from the mechanism itself, not from the input distribution.
 
-**[Live demo →]([https://paul-engerran.github.io/funny-Sandboxes/leverage-fat-tails/index.html](https://paul-engerran.github.io/funny-Sandboxes/))**
+**[Live demo →](https://paul-engerran.github.io/funny-Sandboxes/)**
 
 ---
 
