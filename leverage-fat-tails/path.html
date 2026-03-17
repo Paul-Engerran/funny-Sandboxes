@@ -62,10 +62,16 @@ footer { margin-top: 48px; padding-top: 20px; border-top: 1px solid var(--border
     <h1>Endogenous fat tails</h1>
     <p>Inspect a single simulation trajectory — see exactly when and how liquidation cascades hit.</p>
     <nav style="margin-top:12px;font-family:var(--mono);font-size:0.75rem;display:flex;gap:16px;">
-      <a href="monte_carlo.html" style="color:var(--text-muted);text-decoration:none;padding-bottom:2px;">Monte Carlo</a>
+      <a href="index.html" style="color:var(--text-muted);text-decoration:none;padding-bottom:2px;">Monte Carlo</a>
       <span style="color:var(--text);font-weight:500;border-bottom:2px solid var(--accent);padding-bottom:2px;">Single Path</span>
     </nav>
   </header>
+
+  <div class="card" style="margin-bottom:24px;">
+    <p style="font-size:0.92rem;">The Monte Carlo view shows aggregate statistics — averages across many possible futures. But an average over 100 trajectories hides what actually happens within each one. A mean return of +0.01% daily is compatible with both "smooth growth" and "long calm followed by a catastrophic crash".</p>
+    <p style="font-size:0.92rem;margin-top:8px;">In a multiplicative process with asymmetric crashes, individual trajectories can diverge significantly from the ensemble average. What matters for a real agent is the path they actually live through — not the average over paths they'll never experience. This is the core of the <em>ergodicity problem</em> in economics (Peters, 2019): time averages and ensemble averages don't coincide when returns are multiplicative and heavy-tailed.</p>
+    <p style="font-size:0.92rem;margin-top:8px;color:var(--text-muted);">Run a single simulation and inspect the price path, the liquidation events day by day, the leverage buildup, and the cascade log. Hit "dice" and run again to see how different the same model can look.</p>
+  </div>
 
   <div class="layout">
     <aside class="controls">
@@ -167,6 +173,35 @@ footer { margin-top: 48px; padding-top: 20px; border-top: 1px solid var(--border
           <div id="cascade-log" style="max-height:300px;overflow-y:auto;"></div>
         </div>
       </div>
+    </div>
+  </div>
+
+  <!-- METHODOLOGY -->
+  <div class="card" style="margin-top:32px;">
+    <h2>What to look for</h2>
+    <p style="font-size:0.88rem;"><strong>Price path</strong> — both curves use the exact same Gaussian shocks ε<sub>t</sub>. Any divergence between them is purely the cascade mechanism at work. Look for the moment they separate — that's when the first significant liquidation event hits.</p>
+    <p style="font-size:0.88rem;margin-top:8px;"><strong>Liquidations per day</strong> — most days show zero. The spikes are the cascade events. A tall spike doesn't always mean a large price drop — it depends on the size of the liquidated positions and the market depth at that moment.</p>
+    <p style="font-size:0.88rem;margin-top:8px;"><strong>Aggregate leverage</strong> — this is the heartbeat of the model. It rises slowly during calm periods as positions accumulate near their thresholds, then drops sharply when a cascade purges the most leveraged ones. The sawtooth pattern — slow buildup, sudden release — is the signature of the leverage cycle.</p>
+    <p style="font-size:0.88rem;margin-top:8px;"><strong>Event log</strong> — sorted by severity (worst return first). Look at the number of cascade rounds: a 1-round event means a few positions were hit and the chain stopped. A 5+ round event is a genuine self-amplifying cascade where each wave of liquidations triggered the next.</p>
+  </div>
+
+  <div class="card" style="margin-top:16px;">
+    <h2>Ensemble vs trajectory</h2>
+    <p style="font-size:0.88rem;">The Monte Carlo page shows the ensemble perspective — statistics averaged over many simulations. This page shows the time perspective — one agent living through one realization. In a multiplicative world with fat-tailed crashes, these two views can tell very different stories. The ensemble mean may be positive while the typical trajectory loses money, because a few explosive paths pull the average up while most paths suffer from the asymmetric downside.</p>
+    <p style="font-size:0.88rem;margin-top:8px;">This is why inspecting individual paths is not anecdotal — it's closer to the actual experience of a leveraged participant than any ensemble statistic. The Expected Shortfall matters more than the expected return.</p>
+  </div>
+
+  <div class="card" style="margin-top:16px;">
+    <h2>Same model, different lens</h2>
+    <p style="font-size:0.88rem;">The simulation engine here is identical to the Monte Carlo page — same cascade mechanics, same position dynamics, same parameters. The only difference is what gets displayed: one trajectory with full per-day detail instead of aggregate statistics over many trajectories. See the <a href="monte_carlo.html" style="color:var(--accent);">Monte Carlo page</a> for the model equations and parameter documentation.</p>
+  </div>
+
+  <div class="card" style="margin-top:16px;">
+    <h2>References</h2>
+    <div style="font-size:0.82rem;">
+      <p style="margin:4px 0;">Peters, O. (2019). <em>The ergodicity problem in economics.</em> Nature Physics 15.</p>
+      <p style="margin:4px 0;">Thurner, Farmer, Geanakoplos (2012). <em>Leverage causes fat tails and clustered volatility.</em> Quantitative Finance.</p>
+      <p style="margin:4px 0;">Brunnermeier, Pedersen (2009). <em>Market liquidity and funding liquidity.</em> Review of Financial Studies.</p>
     </div>
   </div>
 
