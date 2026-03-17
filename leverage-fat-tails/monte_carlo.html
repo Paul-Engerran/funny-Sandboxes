@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1"/>
-<title>Endogenous Fat Tails — Leverage Cascade Simulator</title>
+<title>Endogenous Fat Tails - Leverage Cascade Simulator</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&display=swap" rel="stylesheet">
 <style>
@@ -59,7 +59,7 @@ footer { margin-top: 48px; padding-top: 20px; border-top: 1px solid var(--border
   <header>
     <div class="tag">research sandbox</div>
     <h1>Endogenous fat tails</h1>
-    <p>How diffuse leverage creates heavy-tailed return distributions through liquidation cascades — with nothing but Gaussian shocks as input.</p>
+    <p>How diffuse leverage creates heavy-tailed return distributions through liquidation cascades, with nothing but Gaussian shocks as input.</p>
     <nav style="margin-top:12px;font-family:var(--mono);font-size:0.75rem;display:flex;gap:16px;">
       <span style="color:var(--text);font-weight:500;border-bottom:2px solid var(--accent);padding-bottom:2px;">Monte Carlo</span>
       <a href="path.html" style="color:var(--text-muted);text-decoration:none;padding-bottom:2px;">Single Path</a>
@@ -67,8 +67,8 @@ footer { margin-top: 48px; padding-top: 20px; border-top: 1px solid var(--border
   </header>
 
   <div class="card" style="margin-bottom:24px;">
-    <p style="font-size:0.92rem;">Financial returns are not Gaussian — that's well established. Small positive returns most of the time, rare violent crashes. Negative skewness, excess kurtosis. The usual fix is to swap the Gaussian for a heavy-tailed distribution, but that describes the phenomenon without explaining it.</p>
-    <p style="font-size:0.92rem;margin-top:8px;">This simulator explores a structural explanation: diffuse leverage. Many agents borrow to increase their exposure. Their liquidation thresholds cluster. When a price drop crosses a few of them, forced selling pushes the price into more thresholds — a cascade. The shocks going in are purely Gaussian. The fat tails come out of the mechanism.</p>
+    <p style="font-size:0.92rem;">Financial returns are not Gaussian, that's well established. Small positive returns most of the time, rare violent crashes. Negative skewness, excess kurtosis. The usual fix is to swap the Gaussian for a heavy-tailed distribution, but that describes the phenomenon without explaining it.</p>
+    <p style="font-size:0.92rem;margin-top:8px;">This simulator explores a structural explanation: diffuse leverage. Many agents borrow to increase their exposure. Their liquidation thresholds cluster. When a price drop crosses a few of them, forced selling pushes the price into more thresholds : a cascade. The shocks going in are purely Gaussian. The fat tails come out of the mechanism.</p>
     <p style="font-size:0.92rem;margin-top:8px;color:var(--text-muted);">Adjust the parameters on the left, run the Monte Carlo, and watch the excess kurtosis and negative skewness emerge in the results on the right.</p>
   </div>
 
@@ -141,7 +141,7 @@ footer { margin-top: 48px; padding-top: 20px; border-top: 1px solid var(--border
       <div id="mc-results" style="display:none;">
         <div class="card">
           <h2>Price path envelope</h2>
-          <p class="note">Median (solid) with 25th–75th (dark band) and 5th–95th (light band) percentile ranges. Log scale — extreme paths don't crush the view.</p>
+          <p class="note">Median (solid) with 25th–75th (dark band) and 5th–95th (light band) percentile ranges. Log scale - extreme paths don't crush the view.</p>
           <div class="chart-wrap" style="height:300px"><canvas id="c-fan"></canvas></div>
         </div>
 
@@ -169,14 +169,14 @@ footer { margin-top: 48px; padding-top: 20px; border-top: 1px solid var(--border
         </div>
 
         <div class="card">
-          <h2>QQ-plot — pooled returns (all simulations)</h2>
+          <h2>QQ-plot - pooled returns (all simulations)</h2>
           <p class="note">All returns from all simulations pooled. With 50k+ points the tails are well-populated. Departure from diagonal = fat tails.</p>
           <div class="chart-wrap" style="height:280px"><canvas id="c-qq"></canvas></div>
         </div>
 
         <div class="card">
           <h2>Mechanism decomposition</h2>
-          <p class="note">What contributes most to excess kurtosis and negative skewness — the cascade (λ) or the endogenous drift (β)? Median per simulation, relative to Gaussian baseline.</p>
+          <p class="note">What contributes most to excess kurtosis and negative skewness ? The cascade (λ) or the endogenous drift (β)? Median per simulation, relative to Gaussian baseline.</p>
           <div class="metrics-grid">
             <div><h2>Excess kurtosis</h2><div class="chart-wrap"><canvas id="c-mech-kurt"></canvas></div></div>
             <div><h2>Skewness</h2><div class="chart-wrap"><canvas id="c-mech-skew"></canvas></div></div>
@@ -195,7 +195,7 @@ footer { margin-top: 48px; padding-top: 20px; border-top: 1px solid var(--border
         </div>
 
         <div class="card">
-          <h2>MC convergence — excess kurtosis</h2>
+          <h2>MC convergence - excess kurtosis</h2>
           <p class="note">Running estimate of excess kurtosis as simulations accumulate. Stabilisation indicates sufficient sample size.</p>
           <div class="chart-wrap" style="height:200px"><canvas id="c-convergence"></canvas></div>
         </div>
@@ -208,43 +208,43 @@ footer { margin-top: 48px; padding-top: 20px; border-top: 1px solid var(--border
     <h2>The model</h2>
     <p style="font-size:0.88rem;">N leveraged positions, each with a size Q<sub>i</sub> and a liquidation price P<sub>liq,i</sub>. The daily log-return combines three components:</p>
     <pre style="font-family:var(--mono);font-size:0.78rem;background:var(--bg);padding:10px;border-radius:4px;margin:10px 0;overflow-x:auto;">r_t = μ(L_t) + σ₀ · ε_t + cascade_impact_t       ε_t ~ N(0,1)</pre>
-    <p style="font-size:0.88rem;">The ε<sub>t</sub> are the <em>only</em> source of randomness — everything else is deterministic given the state.</p>
+    <p style="font-size:0.88rem;">The ε<sub>t</sub> are the <em>only</em> source of randomness, everything else is deterministic given the state.</p>
 
-    <p style="font-size:0.88rem;margin-top:12px;"><strong>Endogenous drift.</strong> The drift depends on aggregate leverage across all positions. As price nears liquidation thresholds, effective leverage rises, which nudges drift upward — the accumulation phase before a crash.</p>
+    <p style="font-size:0.88rem;margin-top:12px;"><strong>Endogenous drift.</strong> The drift depends on aggregate leverage across all positions. As price nears liquidation thresholds, effective leverage rises, which nudges drift upward, the accumulation phase before a crash.</p>
     <pre style="font-family:var(--mono);font-size:0.78rem;background:var(--bg);padding:10px;border-radius:4px;margin:10px 0;overflow-x:auto;">μ(L_t) = μ₀ + β · L̄_t
 L̄_t = Σ (L_eff_i − 1) · Q_i  /  Σ Q_i
 L_eff_i = P_t / (P_t − P_liq_i)</pre>
 
     <p style="font-size:0.88rem;margin-top:12px;"><strong>Cascade.</strong> After the shock, if the new price P' = P·exp(r) falls below some liquidation thresholds, those positions are forcibly sold. The resulting volume hits the market with a linear price impact:</p>
     <pre style="font-family:var(--mono);font-size:0.78rem;background:var(--bg);padding:10px;border-radius:4px;margin:10px 0;overflow-x:auto;">P' ← P' · exp(−λ · V_liq / V_daily)</pre>
-    <p style="font-size:0.88rem;">This may push price below more thresholds — the cascade iterates until no more positions are hit (max 80 rounds). An optional convex regime (θ, λ₂, γ) models order book depletion for extreme events.</p>
+    <p style="font-size:0.88rem;">This may push price below more thresholds, the cascade iterates until no more positions are hit (max 80 rounds). An optional convex regime (θ, λ₂, γ) models order book depletion for extreme events.</p>
 
-    <p style="font-size:0.88rem;margin-top:12px;"><strong>LTV correlation.</strong> Liquidation thresholds can be correlated through a Gaussian common factor. With ρ = 0, thresholds are independent. With ρ = 0.6, positions cluster — cascades are rarer but far more violent when they occur.</p>
+    <p style="font-size:0.88rem;margin-top:12px;"><strong>LTV correlation.</strong> Liquidation thresholds can be correlated through a Gaussian common factor. With ρ = 0, thresholds are independent. With ρ = 0.6, positions cluster, cascades are rarer but far more violent when they occur.</p>
     <pre style="font-family:var(--mono);font-size:0.78rem;background:var(--bg);padding:10px;border-radius:4px;margin:10px 0;overflow-x:auto;">z_i = ρ · z_common + √(1−ρ²) · z_idio  →  LTV_i = LTV_min + (LTV_max − LTV_min) · Φ(z_i)</pre>
 
     <p style="font-size:0.88rem;margin-top:12px;"><strong>Renewal.</strong> Liquidated positions are replaced at the current price with fresh LTV draws. Without this the position pool shrinks and the model dies. A small fraction (0.5%) of surviving positions also turn over each day.</p>
 
-    <p style="font-size:0.88rem;margin-top:12px;"><strong>Baseline.</strong> Every simulation runs a parallel Gaussian path with the exact same ε<sub>t</sub> sequence — constant drift μ₀, no cascade. Same shocks, different dynamics.</p>
+    <p style="font-size:0.88rem;margin-top:12px;"><strong>Baseline.</strong> Every simulation runs a parallel Gaussian path with the exact same ε<sub>t</sub> sequence, constant drift μ₀, no cascade. Same shocks, different dynamics.</p>
   </div>
 
   <div class="card" style="margin-top:16px;">
     <h2>Reading the outputs</h2>
-    <p style="font-size:0.88rem;"><strong>Fan chart</strong> — log scale so that extreme paths don't crush the view. The median line shows central tendency; the bands show dispersion across simulations. If the cascade median tracks below the Gaussian median, leverage is eroding long-run returns.</p>
-    <p style="font-size:0.88rem;margin-top:8px;"><strong>QQ-plot</strong> — if both models were Gaussian, all points would sit on the diagonal. Departure to the left of the diagonal at the bottom = heavier left tail. This is the most direct visual test for fat tails.</p>
-    <p style="font-size:0.88rem;margin-top:8px;"><strong>VaR vs ES</strong> — in the risk metrics table, notice that VaR 99% barely changes between models while ES 99% jumps significantly. This is the signature of fat tails: the 1% threshold is similar, but <em>how bad it gets</em> beyond that threshold is much worse.</p>
-    <p style="font-size:0.88rem;margin-top:8px;"><strong>Mechanism decomposition</strong> — three regimes are compared: pure Gaussian (β=0, λ=0), cascade only (β=0, λ>0), and the full model. The Δ columns show what each mechanism adds. The cascade is typically the dominant contributor; the endogenous drift plays a secondary role. Medians are used because pooled kurtosis is extremely sensitive to outlier simulations.</p>
-    <p style="font-size:0.88rem;margin-top:8px;"><strong>Dose-response</strong> — shows how Δkurtosis and Δskewness grow as λ increases from 0 to its full value. The relationship is usually nonlinear — most of the tail risk comes from the last 25% of cascade intensity.</p>
+    <p style="font-size:0.88rem;"><strong>Fan chart</strong>: log scale so that extreme paths don't crush the view. The median line shows central tendency; the bands show dispersion across simulations. If the cascade median tracks below the Gaussian median, leverage is eroding long-run returns.</p>
+    <p style="font-size:0.88rem;margin-top:8px;"><strong>QQ-plot</strong>: if both models were Gaussian, all points would sit on the diagonal. Departure to the left of the diagonal at the bottom = heavier left tail. This is the most direct visual test for fat tails.</p>
+    <p style="font-size:0.88rem;margin-top:8px;"><strong>VaR vs ES</strong>: in the risk metrics table, notice that VaR 99% barely changes between models while ES 99% jumps significantly. This is the signature of fat tails: the 1% threshold is similar, but <em>how bad it gets</em> beyond that threshold is much worse.</p>
+    <p style="font-size:0.88rem;margin-top:8px;"><strong>Mechanism decomposition</strong>: three regimes are compared: pure Gaussian (β=0, λ=0), cascade only (β=0, λ>0), and the full model. The Δ columns show what each mechanism adds. The cascade is typically the dominant contributor; the endogenous drift plays a secondary role. Medians are used because pooled kurtosis is extremely sensitive to outlier simulations.</p>
+    <p style="font-size:0.88rem;margin-top:8px;"><strong>Dose-response</strong>: shows how Δkurtosis and Δskewness grow as λ increases from 0 to its full value. The relationship is usually nonlinear, most of the tail risk comes from the last 25% of cascade intensity.</p>
   </div>
 
   <div class="card" style="margin-top:16px;">
     <h2>Empirical motivation</h2>
-    <p style="font-size:0.88rem;">The idea that leverage amplifies tail risk is not new. Thurner, Farmer & Geanakoplos (2012) showed in an agent-based model that leverage alone can produce fat tails and volatility clustering from Gaussian fundamentals — the direct inspiration for this simulator. Brunnermeier & Pedersen (2009) formalized the margin spiral mechanism: falling prices → tighter margins → forced selling → further price decline. Adrian & Shin (2010) documented that financial intermediary leverage is procyclical — it builds up in calm markets and unwinds violently.</p>
+    <p style="font-size:0.88rem;">The idea that leverage amplifies tail risk is not new. Thurner, Farmer & Geanakoplos (2012) showed in an agent-based model that leverage alone can produce fat tails and volatility clustering from Gaussian fundamentals, the direct inspiration for this simulator. Brunnermeier & Pedersen (2009) formalized the margin spiral mechanism: falling prices → tighter margins → forced selling → further price decline. Adrian & Shin (2010) documented that financial intermediary leverage is procyclical, it builds up in calm markets and unwinds violently.</p>
     <p style="font-size:0.88rem;margin-top:8px;">The empirical facts this model tries to capture: daily equity returns exhibit excess kurtosis in the range of 5–15 (far above the Gaussian value of 0), negative skewness around −0.3 to −0.7, and left-tail exceedances roughly 2–3× the Gaussian prediction. The cascade mechanism naturally produces all three.</p>
   </div>
 
   <div class="card" style="margin-top:16px;">
     <h2>Limitations</h2>
-    <p style="font-size:0.88rem;">Not calibrated to any real asset — this demonstrates a mechanism, not a trading strategy. Single asset, no cross-market contagion. Agents are homogeneous (same size distribution, same LTV range). The cascade is instantaneous within a day; real cascades can unfold over hours or days. The price impact model is deliberately stylized — real limit order books have richer dynamics (Bouchaud et al., 2009).</p>
+    <p style="font-size:0.88rem;">Not calibrated to any real asset, this demonstrates a mechanism, not a trading strategy. Single asset, no cross-market contagion. Agents are homogeneous (same size distribution, same LTV range). The cascade is instantaneous within a day; real cascades can unfold over hours or days. The price impact model is deliberately stylized, real limit order books have richer dynamics (Bouchaud et al., 2009).</p>
   </div>
 
   <div class="card" style="margin-top:16px;">
@@ -259,7 +259,7 @@ L_eff_i = P_t / (P_t − P_liq_i)</pre>
     </div>
   </div>
 
-  <footer>Endogenous fat tails — research sandbox. Gaussian shocks → liquidation cascade → stochastic renewal. Fat tails are emergent.</footer>
+  <footer>Endogenous fat tails - research sandbox. Gaussian shocks → liquidation cascade → stochastic renewal. Fat tails are emergent.</footer>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
