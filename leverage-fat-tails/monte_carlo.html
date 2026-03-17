@@ -66,6 +66,12 @@ footer { margin-top: 48px; padding-top: 20px; border-top: 1px solid var(--border
     </nav>
   </header>
 
+  <div class="card" style="margin-bottom:24px;">
+    <p style="font-size:0.92rem;">Financial returns are not Gaussian — that's well established. Small positive returns most of the time, rare violent crashes. Negative skewness, excess kurtosis. The usual fix is to swap the Gaussian for a heavy-tailed distribution, but that describes the phenomenon without explaining it.</p>
+    <p style="font-size:0.92rem;margin-top:8px;">This simulator explores a structural explanation: diffuse leverage. Many agents borrow to increase their exposure. Their liquidation thresholds cluster. When a price drop crosses a few of them, forced selling pushes the price into more thresholds — a cascade. The shocks going in are purely Gaussian. The fat tails come out of the mechanism.</p>
+    <p style="font-size:0.92rem;margin-top:8px;color:var(--text-muted);">Adjust the parameters on the left, run the Monte Carlo, and watch the excess kurtosis and negative skewness emerge in the results on the right.</p>
+  </div>
+
   <div class="layout">
     <aside class="controls">
       <div class="card">
@@ -194,6 +200,62 @@ footer { margin-top: 48px; padding-top: 20px; border-top: 1px solid var(--border
           <div class="chart-wrap" style="height:200px"><canvas id="c-convergence"></canvas></div>
         </div>
       </div>
+    </div>
+  </div>
+
+  <!-- METHODOLOGY -->
+  <div class="card" style="margin-top:32px;">
+    <h2>The model</h2>
+    <p style="font-size:0.88rem;">N leveraged positions, each with a size Q<sub>i</sub> and a liquidation price P<sub>liq,i</sub>. The daily log-return combines three components:</p>
+    <pre style="font-family:var(--mono);font-size:0.78rem;background:var(--bg);padding:10px;border-radius:4px;margin:10px 0;overflow-x:auto;">r_t = μ(L_t) + σ₀ · ε_t + cascade_impact_t       ε_t ~ N(0,1)</pre>
+    <p style="font-size:0.88rem;">The ε<sub>t</sub> are the <em>only</em> source of randomness — everything else is deterministic given the state.</p>
+
+    <p style="font-size:0.88rem;margin-top:12px;"><strong>Endogenous drift.</strong> The drift depends on aggregate leverage across all positions. As price nears liquidation thresholds, effective leverage rises, which nudges drift upward — the accumulation phase before a crash.</p>
+    <pre style="font-family:var(--mono);font-size:0.78rem;background:var(--bg);padding:10px;border-radius:4px;margin:10px 0;overflow-x:auto;">μ(L_t) = μ₀ + β · L̄_t
+L̄_t = Σ (L_eff_i − 1) · Q_i  /  Σ Q_i
+L_eff_i = P_t / (P_t − P_liq_i)</pre>
+
+    <p style="font-size:0.88rem;margin-top:12px;"><strong>Cascade.</strong> After the shock, if the new price P' = P·exp(r) falls below some liquidation thresholds, those positions are forcibly sold. The resulting volume hits the market with a linear price impact:</p>
+    <pre style="font-family:var(--mono);font-size:0.78rem;background:var(--bg);padding:10px;border-radius:4px;margin:10px 0;overflow-x:auto;">P' ← P' · exp(−λ · V_liq / V_daily)</pre>
+    <p style="font-size:0.88rem;">This may push price below more thresholds — the cascade iterates until no more positions are hit (max 80 rounds). An optional convex regime (θ, λ₂, γ) models order book depletion for extreme events.</p>
+
+    <p style="font-size:0.88rem;margin-top:12px;"><strong>LTV correlation.</strong> Liquidation thresholds can be correlated through a Gaussian common factor. With ρ = 0, thresholds are independent. With ρ = 0.6, positions cluster — cascades are rarer but far more violent when they occur.</p>
+    <pre style="font-family:var(--mono);font-size:0.78rem;background:var(--bg);padding:10px;border-radius:4px;margin:10px 0;overflow-x:auto;">z_i = ρ · z_common + √(1−ρ²) · z_idio  →  LTV_i = LTV_min + (LTV_max − LTV_min) · Φ(z_i)</pre>
+
+    <p style="font-size:0.88rem;margin-top:12px;"><strong>Renewal.</strong> Liquidated positions are replaced at the current price with fresh LTV draws. Without this the position pool shrinks and the model dies. A small fraction (0.5%) of surviving positions also turn over each day.</p>
+
+    <p style="font-size:0.88rem;margin-top:12px;"><strong>Baseline.</strong> Every simulation runs a parallel Gaussian path with the exact same ε<sub>t</sub> sequence — constant drift μ₀, no cascade. Same shocks, different dynamics.</p>
+  </div>
+
+  <div class="card" style="margin-top:16px;">
+    <h2>Reading the outputs</h2>
+    <p style="font-size:0.88rem;"><strong>Fan chart</strong> — log scale so that extreme paths don't crush the view. The median line shows central tendency; the bands show dispersion across simulations. If the cascade median tracks below the Gaussian median, leverage is eroding long-run returns.</p>
+    <p style="font-size:0.88rem;margin-top:8px;"><strong>QQ-plot</strong> — if both models were Gaussian, all points would sit on the diagonal. Departure to the left of the diagonal at the bottom = heavier left tail. This is the most direct visual test for fat tails.</p>
+    <p style="font-size:0.88rem;margin-top:8px;"><strong>VaR vs ES</strong> — in the risk metrics table, notice that VaR 99% barely changes between models while ES 99% jumps significantly. This is the signature of fat tails: the 1% threshold is similar, but <em>how bad it gets</em> beyond that threshold is much worse.</p>
+    <p style="font-size:0.88rem;margin-top:8px;"><strong>Mechanism decomposition</strong> — three regimes are compared: pure Gaussian (β=0, λ=0), cascade only (β=0, λ>0), and the full model. The Δ columns show what each mechanism adds. The cascade is typically the dominant contributor; the endogenous drift plays a secondary role. Medians are used because pooled kurtosis is extremely sensitive to outlier simulations.</p>
+    <p style="font-size:0.88rem;margin-top:8px;"><strong>Dose-response</strong> — shows how Δkurtosis and Δskewness grow as λ increases from 0 to its full value. The relationship is usually nonlinear — most of the tail risk comes from the last 25% of cascade intensity.</p>
+  </div>
+
+  <div class="card" style="margin-top:16px;">
+    <h2>Empirical motivation</h2>
+    <p style="font-size:0.88rem;">The idea that leverage amplifies tail risk is not new. Thurner, Farmer & Geanakoplos (2012) showed in an agent-based model that leverage alone can produce fat tails and volatility clustering from Gaussian fundamentals — the direct inspiration for this simulator. Brunnermeier & Pedersen (2009) formalized the margin spiral mechanism: falling prices → tighter margins → forced selling → further price decline. Adrian & Shin (2010) documented that financial intermediary leverage is procyclical — it builds up in calm markets and unwinds violently.</p>
+    <p style="font-size:0.88rem;margin-top:8px;">The empirical facts this model tries to capture: daily equity returns exhibit excess kurtosis in the range of 5–15 (far above the Gaussian value of 0), negative skewness around −0.3 to −0.7, and left-tail exceedances roughly 2–3× the Gaussian prediction. The cascade mechanism naturally produces all three.</p>
+  </div>
+
+  <div class="card" style="margin-top:16px;">
+    <h2>Limitations</h2>
+    <p style="font-size:0.88rem;">Not calibrated to any real asset — this demonstrates a mechanism, not a trading strategy. Single asset, no cross-market contagion. Agents are homogeneous (same size distribution, same LTV range). The cascade is instantaneous within a day; real cascades can unfold over hours or days. The price impact model is deliberately stylized — real limit order books have richer dynamics (Bouchaud et al., 2009).</p>
+  </div>
+
+  <div class="card" style="margin-top:16px;">
+    <h2>References</h2>
+    <div style="font-size:0.82rem;">
+      <p style="margin:4px 0;">Thurner, Farmer, Geanakoplos (2012). <em>Leverage causes fat tails and clustered volatility.</em> Quantitative Finance.</p>
+      <p style="margin:4px 0;">Brunnermeier, Pedersen (2009). <em>Market liquidity and funding liquidity.</em> Review of Financial Studies</p>
+      <p style="margin:4px 0;">Adrian, Shin (2010). <em>Liquidity and leverage.</em> Journal of Financial Intermediation</p>
+      <p style="margin:4px 0;">Cont, Wagalath (2013). <em>Fire sales forensics: Measuring endogenous risk.</em> Mathematical Finance.</p>
+      <p style="margin:4px 0;">Bouchaud, Farmer, Lillo (2009). <em>How markets slowly digest changes in supply and demand.</em> Handbook of Financial Markets.</p>
+      <p style="margin:4px 0;">Mandelbrot (1963). <em>The variation of certain speculative prices.</em> Journal of Business.</p>
     </div>
   </div>
 
