@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1"/>
-<title>Endogenous Fat Tails — Single Path Explorer</title>
+<title>Endogenous Fat Tails - Single Path Explorer</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&display=swap" rel="stylesheet">
 <style>
@@ -60,7 +60,7 @@ footer { margin-top: 48px; padding-top: 20px; border-top: 1px solid var(--border
   <header>
     <div class="tag">single path explorer</div>
     <h1>Endogenous fat tails</h1>
-    <p>Inspect a single simulation trajectory — see exactly when and how liquidation cascades hit.</p>
+    <p>Inspect a single simulation trajectory - see exactly when and how liquidation cascades hit.</p>
     <nav style="margin-top:12px;font-family:var(--mono);font-size:0.75rem;display:flex;gap:16px;">
       <a href="monte_carlo.html" style="color:var(--text-muted);text-decoration:none;padding-bottom:2px;">Monte Carlo</a>
       <span style="color:var(--text);font-weight:500;border-bottom:2px solid var(--accent);padding-bottom:2px;">Single Path</span>
@@ -68,8 +68,8 @@ footer { margin-top: 48px; padding-top: 20px; border-top: 1px solid var(--border
   </header>
 
   <div class="card" style="margin-bottom:24px;">
-    <p style="font-size:0.92rem;">The Monte Carlo view shows aggregate statistics — averages across many possible futures. But an average over 100 trajectories hides what actually happens within each one. A mean return of +0.01% daily is compatible with both "smooth growth" and "long calm followed by a catastrophic crash".</p>
-    <p style="font-size:0.92rem;margin-top:8px;">In a multiplicative process with asymmetric crashes, individual trajectories can diverge significantly from the ensemble average. What matters for a real agent is the path they actually live through — not the average over paths they'll never experience. This is the core of the ergodicity problem in economics (Peters, 2011): time averages and ensemble averages don't coincide when returns are multiplicative and heavy-tailed.</p>
+    <p style="font-size:0.92rem;">The Monte Carlo view shows aggregate statistics, averages across many possible futures. But an average over 100 trajectories hides what actually happens within each one. A mean return of +0.01% daily is compatible with both "smooth growth" and "long calm followed by a catastrophic crash".</p>
+    <p style="font-size:0.92rem;margin-top:8px;">In a multiplicative process with asymmetric crashes, individual trajectories can diverge significantly from the ensemble average. What matters for a real agent is the path they actually live through, not the average over paths they'll never experience. This is problem of the ergodicity in economics (Peters, 2011): time averages and ensemble averages don't coincide when returns are multiplicative and heavy-tailed.</p>
     <p style="font-size:0.92rem;margin-top:8px;color:var(--text-muted);">Run a single simulation and inspect the price path, the liquidation events day by day, the leverage buildup, and the cascade log. Hit "dice" and run again to see how different the same model can look.</p>
   </div>
 
@@ -179,21 +179,21 @@ footer { margin-top: 48px; padding-top: 20px; border-top: 1px solid var(--border
   <!-- METHODOLOGY -->
   <div class="card" style="margin-top:32px;">
     <h2>What to look for</h2>
-    <p style="font-size:0.88rem;"><strong>Price path</strong> — both curves use the exact same Gaussian shocks ε<sub>t</sub>. Any divergence between them is purely the cascade mechanism at work. Look for the moment they separate — that's when the first significant liquidation event hits.</p>
-    <p style="font-size:0.88rem;margin-top:8px;"><strong>Liquidations per day</strong> — most days show zero. The spikes are the cascade events. A tall spike doesn't always mean a large price drop — it depends on the size of the liquidated positions and the market depth at that moment.</p>
-    <p style="font-size:0.88rem;margin-top:8px;"><strong>Aggregate leverage</strong> — this is the heartbeat of the model. It rises slowly during calm periods as positions accumulate near their thresholds, then drops sharply when a cascade purges the most leveraged ones. The sawtooth pattern — slow buildup, sudden release — is the signature of the leverage cycle.</p>
-    <p style="font-size:0.88rem;margin-top:8px;"><strong>Event log</strong> — sorted by severity (worst return first). Look at the number of cascade rounds: a 1-round event means a few positions were hit and the chain stopped. A 5+ round event is a genuine self-amplifying cascade where each wave of liquidations triggered the next.</p>
+    <p style="font-size:0.88rem;"><strong>Price path</strong> : both curves use the exact same Gaussian shocks ε<sub>t</sub>. Any divergence between them is purely the cascade mechanism at work. Look for the moment they separate, that's when the first significant liquidation event hits.</p>
+    <p style="font-size:0.88rem;margin-top:8px;"><strong>Liquidations per day</strong> : most days show zero. The spikes are the cascade events. A tall spike doesn't always mean a large price drop, it depends on the size of the liquidated positions and the market depth at that moment.</p>
+    <p style="font-size:0.88rem;margin-top:8px;"><strong>Aggregate leverage</strong> : this is the heartbeat of the model. It rises slowly during calm periods as positions accumulate near their thresholds, then drops sharply when a cascade purges the most leveraged ones. The sawtooth pattern (slow buildup, sudden release) is the signature of the leverage cycle.</p>
+    <p style="font-size:0.88rem;margin-top:8px;"><strong>Event log</strong> : sorted by severity (worst return first). Look at the number of cascade rounds: a 1-round event means a few positions were hit and the chain stopped. A 5+ round event is a genuine self-amplifying cascade where each wave of liquidations triggered the next.</p>
   </div>
 
   <div class="card" style="margin-top:16px;">
     <h2>Ensemble vs trajectory</h2>
-    <p style="font-size:0.88rem;">The Monte Carlo page shows the ensemble perspective — statistics averaged over many simulations. This page shows the time perspective — one agent living through one realization. In a multiplicative world with fat-tailed crashes, these two views can tell very different stories. The ensemble mean may be positive while the typical trajectory loses money, because a few explosive paths pull the average up while most paths suffer from the asymmetric downside.</p>
-    <p style="font-size:0.88rem;margin-top:8px;">This is why inspecting individual paths is not anecdotal — it's closer to the actual experience of a leveraged participant than any ensemble statistic. The Expected Shortfall matters more than the expected return.</p>
+    <p style="font-size:0.88rem;">The Monte Carlo page shows the ensemble perspective, statistics averaged over many simulations. This page shows the time perspective, one agent living through one realization. In a multiplicative world with fat-tailed crashes, these two views can tell very different stories. The ensemble mean may be positive while the typical trajectory loses money, because a few explosive paths pull the average up while most paths suffer from the asymmetric downside.</p>
+    <p style="font-size:0.88rem;margin-top:8px;">This is why inspecting individual paths is not anecdotal, it's closer to the actual experience of a leveraged participant than any ensemble statistic. The Expected Shortfall matters more than the expected return.</p>
   </div>
 
   <div class="card" style="margin-top:16px;">
     <h2>Same model, different lens</h2>
-    <p style="font-size:0.88rem;">The simulation engine here is identical to the Monte Carlo page — same cascade mechanics, same position dynamics, same parameters. The only difference is what gets displayed: one trajectory with full per-day detail instead of aggregate statistics over many trajectories. See the <a href="monte_carlo.html" style="color:var(--accent);">Monte Carlo page</a> for the model equations and parameter documentation.</p>
+    <p style="font-size:0.88rem;">The simulation engine here is identical to the Monte Carlo page : same cascade mechanics, same position dynamics, same parameters. The only difference is what gets displayed: one trajectory with full per-day detail instead of aggregate statistics over many trajectories. See the <a href="monte_carlo.html" style="color:var(--accent);">Monte Carlo page</a> for the model equations and parameter documentation.</p>
   </div>
 
   <div class="card" style="margin-top:16px;">
@@ -205,7 +205,7 @@ footer { margin-top: 48px; padding-top: 20px; border-top: 1px solid var(--border
     </div>
   </div>
 
-  <footer>Endogenous fat tails — single path explorer. Inspect individual trajectories and cascade events.</footer>
+  <footer>Endogenous fat tails - single path explorer. Inspect individual trajectories and cascade events.</footer>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -313,7 +313,7 @@ function runCascade(P, positions, lambda, lambda2, theta, gamma, V_daily) {
 }
 
 // ============================================================
-//  5. SIMULATE — extended with per-day tracking
+//  5. SIMULATE - extended with per-day tracking
 // ============================================================
 function simulatePath(params) {
   const { N, T, sigma0, mu0, beta, lambda, lambda2, theta, gamma, depth, ltvMin, ltvMax, entrySpread, P0, qScale, seed, rho } = params;
@@ -491,7 +491,7 @@ function renderCascadeLog(dailyLiqs, dailyRounds, returns_cas) {
   for(const e of show){
     const severity = e.liqs > 20 ? 'border-left-color:var(--accent);' : 'border-left-color:rgba(184,76,46,0.3);';
     html+=`<div class="cascade-event" style="${severity}">`;
-    html+=`<strong>Day ${e.day}</strong> — ${e.liqs} liquidated, ${e.rounds} round${e.rounds>1?'s':''}, return ${(e.ret*100).toFixed(2)}%`;
+    html+=`<strong>Day ${e.day}</strong> - ${e.liqs} liquidated, ${e.rounds} round${e.rounds>1?'s':''}, return ${(e.ret*100).toFixed(2)}%`;
     html+=`</div>`;
   }
   if(events.length > 20) html+=`<div style="font-family:var(--mono);font-size:0.70rem;color:var(--text-muted);margin-top:6px;">… and ${events.length-20} more events</div>`;
